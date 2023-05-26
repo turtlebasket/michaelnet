@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# CONTAINER_ID=b581d6283772
+CONTAINER_ID=gitea
+
+docker commit -p $CONTAINER_ID gitea-checkpoint-latest
+docker save -o gitea-checkpoint-$(date | tr '[:upper:]' '[:lower:]' | tr ' ' '_').tar checkpoint-latest
+
