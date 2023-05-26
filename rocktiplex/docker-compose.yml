@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  fathom:
+    image: usefathom/fathom
+    container_name: fathom
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./fathom.db
+        target: /app/fathom.db
+
