@@ -1,6 +1,9 @@
 # Docker volume mounts
 */*-data/
 
+# envfiles
+.env
+
 # backups
 
 *.tar
