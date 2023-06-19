@@ -5,8 +5,9 @@ networks:
     external: false
 
 services:
-  server:
-    image: gitea/gitea:latest
+
+  gitea-server:
+    image: gitea/gitea:1.19.3
     container_name: gitea
     environment:
       USER_UID: 1000
@@ -21,4 +22,14 @@ services:
     ports:
       - "3000:3000"
       - "222:22"
+
+  gitea-cloudflared:
+    container_name: cloudflared-gitea
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run --url http://server:3000
+    environment:
+      - TUNNEL_TOKEN=${GITEA_TUNNEL_TOKEN}
+    networks:
+      - gitea
 

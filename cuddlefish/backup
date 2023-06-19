@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# CONTAINER_ID=b581d6283772
-CONTAINER_ID=gitea
+# NOTE: DEPENDING ON PERMISSIONING, YOU MAY NEED TO RUN THIS SCRIPT USING SUDO
 
-docker commit -p $CONTAINER_ID gitea-checkpoint-latest
-docker save -o gitea-checkpoint-$(date | tr '[:upper:]' '[:lower:]' | tr ' ' '_').tar checkpoint-latest
+source .env
 
+DATESTRING=$(date +"%Y-%m-%d_%H%M%S" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
+ARCHIVE="gitea-data-${DATESTRING}.tar.gz"
+tar -czvf $ARCHIVE gitea-data/
+scp -i $BACKUP_KEYPATH -P $BACKUP_SSH_PORT $ARCHIVE $BACKUP_HOST:~/backups/
+rm $ARCHIVE && echo Removed $ARCHIVE.
