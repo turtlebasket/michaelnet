@@ -27,7 +27,7 @@ services:
     container_name: cloudflared-gitea
     image: cloudflare/cloudflared
     restart: unless-stopped
-    command: tunnel run --url http://server:3000
+    command: tunnel run
     environment:
       - TUNNEL_TOKEN=${GITEA_TUNNEL_TOKEN}
     networks:

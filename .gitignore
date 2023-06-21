@@ -1,5 +1,6 @@
 # Docker volume mounts
 */*-data/
+**/*.db
 
 # envfiles
 .env

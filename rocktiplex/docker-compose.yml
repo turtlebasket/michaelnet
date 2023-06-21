@@ -1,6 +1,11 @@
 version: '3'
 
+networks:
+  status-proxy:
+    external: false
+
 services:
+
   fathom:
     image: usefathom/fathom
     container_name: fathom
@@ -11,4 +16,21 @@ services:
       - type: bind
         source: ./fathom.db
         target: /app/fathom.db
+
+  status-proxy:
+    image: git.michaellisano.com/mcf/status-proxy:latest
+    container_name: mcf-status-proxy
+    restart: always
+    networks:
+      - status-proxy
+
+  status-proxy-cloudflared:
+    container_name: cloudflared-mcf-status-proxy
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run 
+    environment:
+      - TUNNEL_TOKEN=${STATUS_PROXY_TUNNEL_TOKEN}
+    networks:
+      - status-proxy
 
