@@ -1,11 +1,11 @@
 #!/bin/bash
-
 # NOTE: DEPENDING ON PERMISSIONING, YOU MAY NEED TO RUN THIS SCRIPT USING SUDO
 
 source .env
 
 DATESTRING=$(date +"%Y-%m-%d_%H%M%S" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
 ARCHIVE="gitea-data-${DATESTRING}.tar.gz"
-tar -czvf $ARCHIVE gitea-data/
-scp -i $BACKUP_KEYPATH -P $BACKUP_SSH_PORT $ARCHIVE $BACKUP_HOST:~/backups/
-rm $ARCHIVE && echo Removed $ARCHIVE.
+tar -czvf $ARCHIVE gitea-data/ && \
+	age -e -r age1grpe9c934q09933g7mxne03z7k6e572tjcqxdkne6rwyfht2saeq90sf3f -o $ARCHIVE.enc $ARCHIVE && \
+	scp -i $BACKUP_KEYPATH -P $BACKUP_SSH_PORT $ARCHIVE.enc $BACKUP_HOST:~/backups/
+rm -f $ARCHIVE $ARCHIVE.age && echo Removed $ARCHIVE, $ARCHIVE.enc.
