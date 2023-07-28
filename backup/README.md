@@ -1,5 +1,13 @@
 # Generic Backup Host
 
+## Crontab
+
+Runs on the second of every month.
+
+```
+0 0 2 * * cd /home/USER/backups && bash prune.sh
+```
+
 ## Filenames
 
 Container volume backups are of the format:
