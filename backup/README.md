@@ -8,7 +8,7 @@ Runs on the second of every month.
 0 0 2 * * cd /home/USER/backups && bash prune.sh
 ```
 
-## Filenames
+## Filename Pattern
 
 Container volume backups are of the format:
 
@@ -22,11 +22,9 @@ gitea-data-2023-06-17_050002.tar.gz.enc
 Container volume name (*-data)
 ```
 
-## Matching
-
-Regex to match backups that are *not* from the first of every month:
+Regex to match backups that are *not* from the first of every month, using the above format:
 
 ```
-.*-data-\d{4}-\d{2}-([^0][0-9]|[0-9][^1])_.*
+[0-9A-Za-z]+-data-[0-9]{4}-[0-9]{2}-([^0][0-9]|[0-9][^1])_.*
 ```
 

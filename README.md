@@ -6,9 +6,16 @@
 | :--- | :--- | :------- |
 | Cuddlefish | ![CentOS](https://img.shields.io/badge/centos%207-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0) | Gitea |
 | Rocktiplex | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom |
+| Cloud8 | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud |
 
-<!-- To be created -->
-<!-- | Cloud8 | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud | -->
+## SELinux Notes
+
+Docker volumes violate some SELinux policies. Use `setenforce 0` to disable it temporarily, or make the following permanent change to `/etc/sysconfig/selinux`:
+
+```bash
+# SELINUX=enforcing
+SELINUX=permissive
+```
 
 ## Dockerized Cloudflared Notes
 
