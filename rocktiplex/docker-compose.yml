@@ -1,28 +1,61 @@
 version: '3'
 
 networks:
+
   status-proxy:
+    external: false
+
+  fathom:
+    external: false
+
+  rsf-analytics:
+    external: false
+
+  reader:
     external: false
 
 services:
 
-  fathom:
+  # ============================================
+  # FATHOM ANALYTICS
+  # ============================================
+
+  fathom: # HTTP - port 8080
     image: usefathom/fathom
     container_name: fathom
-    restart: always
-    ports:
-      - "8080:8080"
+    # restart: always
     volumes:
-      - type: bind
-        source: ./fathom.db
-        target: /app/fathom.db
+      - ./storage:/storage
+      # - type: bind
+      #   source: ./fathom.db
+      #   target: /app/fathom.db
+    networks:
+      - fathom
+    environment:
+      - FATHOM_DATABASE_NAME=/storage/fathom.db
 
-  status-proxy:
+  fathom-cloudflared:
+    container_name: cloudflared-fathom
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run 
+    environment:
+      - TUNNEL_TOKEN=${FATHOM_TUNNEL_TOKEN}
+    networks:
+      - fathom
+
+  # ============================================
+  # STATUS PROXY
+  # ============================================
+
+  status-proxy: # HTTP - port 8080
     image: git.michaellisano.com/mcf/status-proxy:latest
     container_name: mcf-status-proxy
     restart: always
     networks:
       - status-proxy
+    environment:
+      - ALLOWED_ORIGINS=*
 
   status-proxy-cloudflared:
     container_name: cloudflared-mcf-status-proxy
@@ -33,4 +66,60 @@ services:
       - TUNNEL_TOKEN=${STATUS_PROXY_TUNNEL_TOKEN}
     networks:
       - status-proxy
+
+  # ============================================
+  # RSF ANALYTICS
+  # ============================================
+
+  rsf-analytics: # HTTP - port 8000
+    image: ghcr.io/turtlebasket/rsf-analytics:latest
+    container_name: rsf-analytics
+    restart: always
+    networks:
+      - rsf-analytics
+    environment:
+      - API_URL=${RSF_DENSITY_API_URL}
+      - SPACE_ID=${RSF_DENSITY_SPACE_ID}
+      - API_TOKEN=${RSF_DENSITY_API_TOKEN}
+      - ADMIN_KEY=${RSF_ADMIN_KEY}
+
+  rsf-analytics-cloudflared:
+    container_name: cloudflared-rsf-analytics
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run 
+    environment:
+      - TUNNEL_TOKEN=${RSF_TUNNEL_TOKEN}
+    networks:
+      - rsf-analytics
+
+  # ============================================
+  # RSS READER
+  # ============================================
+
+        #   reader-postgres:
+        #     image: postgres:9.5-alpine
+        #     restart: always
+        #     volumes:
+        #       - ~/stringer:/var/lib/postgresql/data
+        #     environment:
+        #       - POSTGRES_PASSWORD=${READER_POSTGRES_PASS}
+        #       - POSTGRES_USER=postgres
+        #       - POSTGRES_DB=stringer
+        # 
+        #   reader-web:
+        #     image: mockdeep/stringer
+        #     build: .
+        #     depends_on:
+        #       - postgres
+        #     restart: always
+        #     ports:
+        #       - 80:8080
+        #     environment:
+        #       - SECRET_KEY_BASE=${READER_SECRET_KEY_BASE}
+        #       - ENCRYPTION_PRIMARY_KEY=${READER_ENCRYPTION_PRIMARY_KEY}
+        #       - ENCRYPTION_DETERMINISTIC_KEY=${READER_ENCRYPTION_DETERMINISTIC_KEY}
+        #       - ENCRYPTION_KEY_DERIVATION_SALT=${READER_ENCRYPTION_KEY_DERIVATION_SALT}
+        #       - PORT=${READER_PORT}
+        #       - DATABASE_URL=postgres://postgres:${READER_POSTGRES_PASS}@reader-postgres:5432/stringer
 
