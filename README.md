@@ -4,9 +4,11 @@
 
 | Host | OS   | Services |
 | :--- | :--- | :------- |
-| Cuddlefish | ![CentOS](https://img.shields.io/badge/centos%207-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0) | Gitea |
-| Rocktiplex | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom |
-| Cloud8 | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud |
+| [Cuddlefish](cuddlefish/) | ![CentOS](https://img.shields.io/badge/centos%207-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0) | Gitea |
+| [Thonkpad](thonkpad/) (portable) | ![Fedora](https://img.shields.io/badge/Fedora-294172?style=for-the-badge&logo=fedora&logoColor=white) | Misc. Projects |
+| [Rocktiplex](rocktiplex/) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom, Status Proxy, RSF Analytics |
+| Cloud8 (under repair) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud |
+| [Backup](backup/) (off-site) | ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white) | Backup Storage |
 
 ## SELinux Notes
 
