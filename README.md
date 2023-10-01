@@ -1,16 +1,33 @@
 # Michael's Homelab
 
-## Hosts 
+## Host List
 
-| Host | OS   | Services |
-| :--- | :--- | :------- |
-| [Cuddlefish](cuddlefish/) | ![CentOS](https://img.shields.io/badge/centos%207-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0) | Gitea |
-| [Thonkpad](thonkpad/) (portable) | ![Fedora](https://img.shields.io/badge/Fedora-294172?style=for-the-badge&logo=fedora&logoColor=white) | Misc. Projects |
-| [Rocktiplex](rocktiplex/) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom, Status Proxy, RSF Analytics |
-| Cloud8 (under repair) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux%209-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud |
-| [Backup](backup/) (off-site) | ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white) | Backup Storage |
+### Devices
 
-## SELinux Notes
+| Host | OS   | Purpose / Services |
+| :--- | :--- | :----------------- |
+| [Thonkpad](thonkpad/) (portable) | ![Fedora](https://img.shields.io/badge/Fedora_37-294172?style=for-the-badge&logo=fedora&logoColor=white) | Misc. Projects |
+| [Cuddlefish](cuddlefish/) | ![CentOS](https://img.shields.io/badge/centos_7-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0) | Gitea |
+| [Rocktiplex](rocktiplex/) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux_9-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom, Status Proxy, RSF Analytics |
+| Cloud8 (under repair) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux_9-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud |
+
+### Virtualized Hosts
+
+| VM   | Kind | Machine | OS   | Purpose / Services |
+| :--- | :--- | :------ | :--- | :----------------- |
+| [NixHost](thonkpad/nixhost/) | KVM | Thonkpad | ![NixOS](https://img.shields.io/badge/NIXOS-5277C3.svg?style=for-the-badge&logo=NixOS&logoColor=white) | NixOS Testbed |
+
+### Off-site
+
+| Host | Provider | OS   | Purpose / Services |
+| :--- | :------- | :--- | :----------------- |
+| Backup1 | [TNAHosting](https://tnahosting.net/) | ![Ubuntu](https://img.shields.io/badge/Ubuntu_22.04_LTS-E95420?style=for-the-badge&logo=ubuntu&logoColor=white) | Docker Volume Backups |
+
+## Docker 
+
+Most services are run as Docker containers.
+
+### SELinux Notes
 
 Docker volumes violate some SELinux policies. Use `setenforce 0` to disable it temporarily, or make the following permanent change to `/etc/sysconfig/selinux`:
 
@@ -19,7 +36,7 @@ Docker volumes violate some SELinux policies. Use `setenforce 0` to disable it t
 SELINUX=permissive
 ```
 
-## Dockerized Cloudflared Notes
+### Dockerized Cloudflared Notes
 
 If a docker-compose file looks like this:
 
@@ -27,10 +44,10 @@ If a docker-compose file looks like this:
 services:
   gitea-server:
     image: gitea/gitea:1.19.3
-    ...
+    # ...
   gitea-cloudflared:
     image: cloudflare/cloudflared
-    ...
+    # ...
 ```
 
 Then in this case the name of the target service is `gitea-server`, and (per Docker's networking shenanigans), should be specified **directly by service name,** e.g.
@@ -39,7 +56,7 @@ Then in this case the name of the target service is `gitea-server`, and (per Doc
 https://git.michaellisano.com -> http://gitea-server:3000
 ```
 
-## Backup Decryption Notes
+## Backups
 
 Everything is encrypted with [age](https://github.com/FiloSottile/age).
 
