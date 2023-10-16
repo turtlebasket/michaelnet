@@ -91,3 +91,7 @@ Temporary Items
 *.tar.gz
 *.tar.gz.enc
 *.tar.gz.age
+
+# OS images & QEMU drives
+*.iso
+*.qcow2
