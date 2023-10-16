@@ -99,6 +99,8 @@ services:
     image: ghcr.io/turtlebasket/ytpod:latest
     container_name: ytpod
     restart: always
+    environment:
+      - YTPOD_URL=${YTPOD_URL}
     networks:
       - ytpod
 
