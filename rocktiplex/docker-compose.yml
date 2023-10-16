@@ -1,16 +1,14 @@
 version: '3'
 
 networks:
-
   status-proxy:
     external: false
-
   fathom:
     external: false
-
   rsf-analytics:
     external: false
-
+  ytpod:
+    external: false
   reader:
     external: false
 
@@ -92,6 +90,28 @@ services:
       - TUNNEL_TOKEN=${RSF_TUNNEL_TOKEN}
     networks:
       - rsf-analytics
+
+  # ============================================
+  # YTPOD
+  # ============================================
+
+  ytpod: # HTTP - port 8080
+    image: ghcr.io/turtlebasket/ytpod:latest
+    container_name: ytpod
+    restart: always
+    networks:
+      - ytpod
+
+  ytpod-cloudflared:
+    container_name: cloudflared-ytpod
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run 
+    environment:
+      - TUNNEL_TOKEN=${YTPOD_TUNNEL_TOKEN}
+    networks:
+      - ytpod
+
 
   # ============================================
   # RSS READER
