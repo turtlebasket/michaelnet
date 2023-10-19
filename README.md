@@ -27,6 +27,14 @@
 
 Most services are run as Docker containers.
 
+### Volume Permission Notes
+
+In a standard setup, we will have a `docker` usergroup. To make a *user-created directory* usable as a volume, run the following:
+
+```bash
+sudo chown -R my-user:docker my-dir
+```
+
 ### SELinux Notes
 
 Docker volumes violate some SELinux policies. Use `setenforce 0` to disable it temporarily, or make the following permanent change to `/etc/sysconfig/selinux`:
