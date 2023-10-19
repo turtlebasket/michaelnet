@@ -80,6 +80,10 @@ services:
       - SPACE_ID=${RSF_DENSITY_SPACE_ID}
       - API_TOKEN=${RSF_DENSITY_API_TOKEN}
       - ADMIN_KEY=${RSF_ADMIN_KEY}
+      - FATHOM_HOST=${RSF_FATHOM_HOST}
+      - FATHOM_SITE_ID=${RSF_FATHOM_SITE_ID}
+    volumes:
+      - ./rsf-data:/app/static
 
   rsf-analytics-cloudflared:
     container_name: cloudflared-rsf-analytics
