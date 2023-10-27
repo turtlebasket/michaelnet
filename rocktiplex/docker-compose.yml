@@ -1,16 +1,14 @@
 version: '3'
 
 networks:
-
   status-proxy:
     external: false
-
   fathom:
     external: false
-
   rsf-analytics:
     external: false
-
+  ytpod:
+    external: false
   reader:
     external: false
 
@@ -82,6 +80,10 @@ services:
       - SPACE_ID=${RSF_DENSITY_SPACE_ID}
       - API_TOKEN=${RSF_DENSITY_API_TOKEN}
       - ADMIN_KEY=${RSF_ADMIN_KEY}
+      - FATHOM_HOST=${RSF_FATHOM_HOST}
+      - FATHOM_SITE_ID=${RSF_FATHOM_SITE_ID}
+    volumes:
+      - ./rsf-data:/app/static
 
   rsf-analytics-cloudflared:
     container_name: cloudflared-rsf-analytics
@@ -92,6 +94,30 @@ services:
       - TUNNEL_TOKEN=${RSF_TUNNEL_TOKEN}
     networks:
       - rsf-analytics
+
+  # ============================================
+  # YTPOD
+  # ============================================
+
+  ytpod: # HTTP - port 8080
+    image: ghcr.io/turtlebasket/ytpod:latest
+    container_name: ytpod
+    restart: always
+    environment:
+      - YTPOD_URL=${YTPOD_URL}
+    networks:
+      - ytpod
+
+  ytpod-cloudflared:
+    container_name: cloudflared-ytpod
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run 
+    environment:
+      - TUNNEL_TOKEN=${YTPOD_TUNNEL_TOKEN}
+    networks:
+      - ytpod
+
 
   # ============================================
   # RSS READER
