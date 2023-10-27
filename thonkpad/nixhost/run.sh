@@ -1,6 +1,5 @@
 #!/bin/bash
 
-ISO=nixos
 DRIVENAME=nixhost
 MEM_GB=1
 SSH_PORT=2022

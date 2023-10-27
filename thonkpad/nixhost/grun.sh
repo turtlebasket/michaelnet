@@ -2,7 +2,6 @@
 
 # Graphical runner for desktop
 
-ISO=nixos
 DRIVENAME=nixhost
 MEM_GB=1
 
