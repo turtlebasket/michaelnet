@@ -1,5 +1,7 @@
 # Michael's Homelab
 
+Welcome to the container farm...
+
 ## Host List
 
 ### Devices
@@ -8,14 +10,15 @@
 | :--- | :--- | :----------------- |
 | [Thonkpad](thonkpad/) (portable) | ![Fedora](https://img.shields.io/badge/Fedora_37-294172?style=for-the-badge&logo=fedora&logoColor=white) | Misc. Projects |
 | [Cuddlefish](cuddlefish/) | ![CentOS](https://img.shields.io/badge/centos_7-002260?style=for-the-badge&logo=centos&logoColor=F0F0F0) | Gitea |
-| [Rocktiplex](rocktiplex/) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux_9-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom, Status Proxy, RSF Analytics |
+| [Rocktiplex](rocktiplex/) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux_9-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | Fathom, Status Proxy, [RSF Analytics](https://rsf.michaellisano.com), [ytpod](https://ytpod.michaellisano.com/) |
 | Cloud8 (under repair) | ![Rocky Linux](https://img.shields.io/badge/-Rocky%20Linux_9-%2310B981?style=for-the-badge&logo=rockylinux&logoColor=white) | NextCloud |
 
 ### Virtualized Hosts
 
-| VM   | Kind | Machine | OS   | Purpose / Services |
-| :--- | :--- | :------ | :--- | :----------------- |
-| [NixHost](thonkpad/nixhost/) | KVM | Thonkpad | ![NixOS](https://img.shields.io/badge/NIXOS-5277C3.svg?style=for-the-badge&logo=NixOS&logoColor=white) | NixOS Testbed |
+| VM   | Kind | Access | Machine | OS   | Purpose / Services |
+| :--- | :--- | :----- | :------ | :--- | :----------------- |
+| [NixHost](thonkpad/nixhost/) | KVM | SSH |  Thonkpad | ![NixOS](https://img.shields.io/badge/NIXOS-5277C3.svg?style=for-the-badge&logo=NixOS&logoColor=white) | NixOS Testbed |
+| [WinHost](thonkpad/winhost/) | KVM | RDP |  Thonkpad | ![Windows 10](https://img.shields.io/badge/Windows_10-%230079d5.svg?style=for-the-badge&logo=Windows&logoColor=white) | Altium Designer |
 
 ### Off-site
 
