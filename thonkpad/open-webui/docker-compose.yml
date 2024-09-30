@@ -1,0 +1,39 @@
+version: "3"
+
+networks:
+  open-webui:
+    external: false
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    volumes:
+      - ./open-webui-data:/app/backend/data
+    env_file:
+      - "./.env"
+    environment:
+      - ENV=prod
+      - PORT=8080
+      - WEBUI_AUTH=True
+      - WEBUI_SECRET_KEY=${OPEN_WEBUI_SECRET_KEY}
+      - DEFAULT_LOCALE=en
+      - ENABLE_OPENAI_API=True
+      - ENABLE_OLLAMA_API=False
+      - TASK_MODEL_EXTERNAL=gpt-4o
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CORS_ALLOW_ORIGIN=https://open-webui.michaellisano.com
+    restart: unless-stopped
+    networks:
+      - open-webui
+
+  open-webui-cloudflared:
+    container_name: open-webui-cloudflared
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${OPEN_WEBUI_TUNNEL_TOKEN}
+    networks:
+      - open-webui
+
