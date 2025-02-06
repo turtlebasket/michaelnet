@@ -3,6 +3,8 @@ version: "3"
 networks:
   open-webui:
     external: false
+  searxng:
+    external: false
 
 services:
   open-webui:
@@ -23,9 +25,58 @@ services:
       - TASK_MODEL_EXTERNAL=gpt-4o
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - CORS_ALLOW_ORIGIN=https://open-webui.michaellisano.com
+      - SEARXNG_QUERY_URL=http://searxng:8080
     restart: unless-stopped
     networks:
       - open-webui
+      - searxng
+
+  searxng:
+    # see: https://github.com/searxng/searxng-docker/blob/master/docker-compose.yaml
+    # (runs on port 8080)
+    container_name: open-webui-searxng
+    image: docker.io/searxng/searxng:latest
+    restart: unless-stopped
+    networks:
+      - searxng
+    volumes:
+      - ./searxng-settings.yml:/etc/searxng/settings.yml
+      - ./searxng:/etc/searxng:rw
+    environment:
+      - UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
+      - UWSGI_THREADS=${SEARXNG_UWSGI_THREADS:-4}
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+
+  searxng-valkey:
+    container_name: open-webui-searxng-valkey
+    image: docker.io/valkey/valkey:8-alpine
+    command: valkey-server --save 30 1 --loglevel warning
+    restart: unless-stopped
+    networks:
+      - searxng
+    volumes:
+      - ./valkey-data2:/data
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
 
   open-webui-cloudflared:
     container_name: open-webui-cloudflared
