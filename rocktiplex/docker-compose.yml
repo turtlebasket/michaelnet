@@ -21,7 +21,7 @@ services:
   fathom: # HTTP - port 8080
     image: usefathom/fathom
     container_name: fathom
-    # restart: always
+    restart: unless-stopped
     volumes:
       - ./storage:/storage
       # - type: bind
